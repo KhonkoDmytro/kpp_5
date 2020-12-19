@@ -1,5 +1,7 @@
 package program.logic;
 
+import program.threadpool.ThreadPool;
+
 public class CarMounter extends Thread{
     Storage<Accessory> accessoryStorage;
     Storage<Engine> engineStorage;
@@ -9,11 +11,34 @@ public class CarMounter extends Thread{
 
     boolean shouldStop = false;
     long waitTime;
+
+    ThreadPool threadpool;
+
+    private class CreateCar implements Runnable{
+        public void run(){
+            if(     accessoryStorage.tryGet() &&
+                    engineStorage.tryGet() &&
+                    bodyStorage.tryGet())
+            {
+                Car newCar = new Car(engineStorage.get(),
+                        bodyStorage.get(),
+                        accessoryStorage.get());
+                synchronized (carStorage)
+                {
+                    while(!carStorage.tryAdd());
+
+                    carStorage.add(newCar);
+                }
+
+            }
+        }
+    }
     public CarMounter(Storage<Accessory> as,
                       Storage<Engine> es,
                       Storage<CarBody> bs,
                       Storage<Car> cs,
-                      long waitTime)
+                      long waitTime,
+                      ThreadPool th)
     {
         accessoryStorage = as;
         engineStorage = es;
@@ -21,6 +46,7 @@ public class CarMounter extends Thread{
         carStorage = cs;
 
         this.waitTime = waitTime;
+        threadpool = th;
     }
 
     public void run()
@@ -29,21 +55,8 @@ public class CarMounter extends Thread{
             synchronized (accessoryStorage) {
                 synchronized (engineStorage) {
                     synchronized (bodyStorage) {
-                        if(accessoryStorage.tryGet() &&
-                        engineStorage.tryGet() &&
-                        bodyStorage.tryGet())
-                        {
-                            Car newCar = new Car(engineStorage.get(),
-                                    bodyStorage.get(),
-                                    accessoryStorage.get());
-                            synchronized (carStorage)
-                            {
-                                while(!carStorage.tryAdd());
-
-                                carStorage.add(newCar);
-                            }
-
-                        }
+                        threadpool.enqueue(new CreateCar());
+                        // command factory singleton threadpool, mvc
                         synchronized (Thread.currentThread())
                         {
                             try

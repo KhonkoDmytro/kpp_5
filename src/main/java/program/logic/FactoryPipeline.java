@@ -1,5 +1,7 @@
 package program.logic;
 
+import program.threadpool.ThreadPool;
+
 public class FactoryPipeline extends Thread {
     Storage<Accessory> accessoryStorage;
     Storage<Engine> engineStorage;
@@ -11,6 +13,8 @@ public class FactoryPipeline extends Thread {
     ParticleProducer<CarBody> bodyProducer;
 
     CarMounter carMounter;
+
+    ThreadPool threadpool;
 
     public FactoryPipeline(int initialTime, int maxSize) {
         accessoryStorage = new Storage<>(maxSize);
@@ -25,7 +29,8 @@ public class FactoryPipeline extends Thread {
                 engineStorage,
                 bodyStorage,
                 carStorage,
-                initialTime);
+                initialTime,
+                threadpool);
 
     }
 
