@@ -7,7 +7,7 @@ public class Storage<T> {
     Boolean changed;
 
     Integer maxSize;
-    ArrayList<T> storage;
+    private ArrayList<T> storage = new ArrayList<>();
 
     public Storage(int maxSize) {
         this.maxSize = maxSize;
@@ -38,5 +38,9 @@ public class Storage<T> {
         Boolean res = changed;
         changed = false;
         return res;
+    }
+
+    public ArrayList<T> getStorage() {
+        return storage;
     }
 }

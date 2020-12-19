@@ -43,31 +43,31 @@ public class FactoryPipeline extends Thread {
 
     }
 
-    Storage<Accessory> getAccessoryStorage() {
+    public Storage<Accessory> getAccessoryStorage() {
         return accessoryStorage;
     }
 
-    Storage<Engine> getEngineStorage() {
+    public Storage<Engine> getEngineStorage() {
         return engineStorage;
     }
 
-    Storage<CarBody> getBodyStorage() {
+    public Storage<CarBody> getBodyStorage() {
         return bodyStorage;
     }
 
-    Storage<Car> getCarStorage() {
+    public Storage<Car> getCarStorage() {
         return carStorage;
     }
 
-    void setAccessoryProducerWaitTime(long milliseconds) {
+    public void setAccessoryProducerWaitTime(long milliseconds) {
         accessoryProducer.setWaitTime(milliseconds);
     }
 
-    void setEngineProducerWaitTime(long milliseconds) {
+    public void setEngineProducerWaitTime(long milliseconds) {
         engineProducer.setWaitTime(milliseconds);
     }
 
-    void setCarBodyProducerWaitTime(long milliseconds) {
+    public void setCarBodyProducerWaitTime(long milliseconds) {
         bodyProducer.setWaitTime(milliseconds);
     }
 

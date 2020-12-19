@@ -4,5 +4,6 @@ module org.example {
 
     opens program.controller to javafx.fxml;
     opens program to javafx.fxml;
+    opens program.logic to javafx.base;
     exports program;
 }

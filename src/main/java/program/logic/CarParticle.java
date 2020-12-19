@@ -1,15 +1,17 @@
 package program.logic;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class CarParticle {
-    final LocalDateTime creationTime;
+    final LocalTime creationTime;
     Integer id;
 
     static Integer lastId = 1;
 
     protected CarParticle() {
-        creationTime = LocalDateTime.now();
+        creationTime = LocalTime.now();
         id = getAvailableId();
     }
 
@@ -23,8 +25,10 @@ public class CarParticle {
         return id;
     }
 
-    public LocalDateTime getCreationTime() {
-        return creationTime;
+    public String getCreationTime() {
+//        return Integer.toString(creationTime.();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return dateFormatter.format(creationTime);
     }
 
 }
