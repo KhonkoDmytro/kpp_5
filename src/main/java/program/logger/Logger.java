@@ -40,7 +40,7 @@ public class Logger
         }
     }
 
-    public static Logger getInstance()
+    synchronized public static Logger getInstance()
     {
         if(instance == null)
         {
