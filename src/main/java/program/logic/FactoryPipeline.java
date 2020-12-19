@@ -1,6 +1,5 @@
 package program.logic;
 
-
 public class FactoryPipeline extends Thread {
     Storage<Accessory> accessoryStorage;
     Storage<Engine> engineStorage;
