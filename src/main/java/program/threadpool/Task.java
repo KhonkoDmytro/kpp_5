@@ -1,6 +1,6 @@
 package program.threadpool;
 
-public class Task implements Runnable
+public abstract class Task implements Runnable
 {
     private int id;
     private String info;
@@ -34,12 +34,7 @@ public class Task implements Runnable
     {
         this.info = info;
     }
-
+    
     @Override
-    public void run()
-    {
-        //Завданнями для ThreadPool є запити на створення нових машин (від контролера складу готових виробів)
-        // тобто треба унаслідувати Task і перевизначити run()
-        System.out.println("Task #" + this.id + ": " + this.info);
-    }
+    public abstract void run();
 }
