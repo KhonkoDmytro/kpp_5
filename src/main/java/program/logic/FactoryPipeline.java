@@ -26,11 +26,11 @@ public class FactoryPipeline extends Thread {
         engineProducer = new ParticleProducer<>(engineStorage, new EngineFactory(), initialTime);
         bodyProducer = new ParticleProducer<>(bodyStorage, new CarBodyFactory(), initialTime);
         carMounter = new CarMounter(accessoryStorage,
-                engineStorage,
-                bodyStorage,
-                carStorage,
-                initialTime,
-                threadpool);
+            engineStorage,
+            bodyStorage,
+            carStorage,
+            initialTime,
+            threadpool);
 
     }
 
@@ -43,46 +43,49 @@ public class FactoryPipeline extends Thread {
 
     }
 
-    Storage<Accessory> getAccessoryStorage()
-    {
+    Storage<Accessory> getAccessoryStorage() {
         return accessoryStorage;
     }
 
-    Storage<Engine> getEngineStorage()
-    {
+    Storage<Engine> getEngineStorage() {
         return engineStorage;
     }
 
-    Storage<CarBody> getBodyStorage()
-    {
+    Storage<CarBody> getBodyStorage() {
         return bodyStorage;
     }
 
-    Storage<Car> getCarStorage()
-    {
+    Storage<Car> getCarStorage() {
         return carStorage;
     }
-    
+
+    void setAccessoryProducerWaitTime(long milliseconds) {
+        accessoryProducer.setWaitTime(milliseconds);
+    }
+
+    void setEngineProducerWaitTime(long milliseconds) {
+        engineProducer.setWaitTime(milliseconds);
+    }
+
+    void setCarBodyProducerWaitTime(long milliseconds) {
+        bodyProducer.setWaitTime(milliseconds);
+    }
+
     public void terminate() {
         accessoryProducer.terminate();
         engineProducer.terminate();
         bodyProducer.terminate();
         carMounter.terminate();
 
-        try
-        {
+        try {
             accessoryProducer.join();
             engineProducer.join();
             bodyProducer.join();
             carMounter.join();
-        }
-        catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
 
         }
 
     }
-
-
 
 }

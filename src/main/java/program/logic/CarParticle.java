@@ -7,32 +7,24 @@ public class CarParticle {
     Integer id;
 
     static Integer lastId = 1;
-    protected CarParticle()
-    {
+
+    protected CarParticle() {
         creationTime = LocalDateTime.now();
         id = getAvailableId();
     }
 
-    private static Integer getAvailableId()
-    {
-        synchronized (lastId)
-        {
+    private static Integer getAvailableId() {
+        synchronized (lastId) {
             return lastId++;
         }
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public LocalDateTime getCreationTime()
-    {
+    public LocalDateTime getCreationTime() {
         return creationTime;
     }
 
-
-
 }
-
-

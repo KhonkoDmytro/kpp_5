@@ -24,7 +24,7 @@ public class MainFormController {
 
     private SpinnerValueFactory<Integer> getSpinnerValueFactory(int initialValue) {
         SpinnerValueFactory<Integer> spinnerValueFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
         spinnerValueFactory.valueProperty().addListener(observable -> setEngineFactorySpeed());
         return spinnerValueFactory;
     }
@@ -32,7 +32,7 @@ public class MainFormController {
     @FXML
     public void openConfig() {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("only xml","*.xml");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("only xml", "*.xml");
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setTitle("Відкрити файл конфігурації");
         File config = fileChooser.showOpenDialog(new Stage());

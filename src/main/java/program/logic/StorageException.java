@@ -1,4 +1,4 @@
 package program.logic;
 
-public class StorageException extends Exception{
+public class StorageException extends Exception {
 }

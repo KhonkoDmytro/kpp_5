@@ -1,49 +1,42 @@
 package program.logic;
 
-public class ParticleProducer<T extends CarParticle> extends Thread{
+public class ParticleProducer<T extends CarParticle> extends Thread {
     long waitTime; // in milliseconds
     boolean shouldStop = false;
     Storage<T> storage;
     ParticleFactory factory;
-    public ParticleProducer(Storage<T> storage, ParticleFactory factory, long initialWaitTime)
-    {
+
+    public ParticleProducer(Storage<T> storage, ParticleFactory factory, long initialWaitTime) {
         this.storage = storage;
         this.factory = factory;
         waitTime = initialWaitTime;
     }
 
-    void setWaitTime(long milliseconds)
-    {
+    void setWaitTime(long milliseconds) {
         waitTime = milliseconds;
     }
 
-    public void run()
-    {
-        while(!shouldStop)
-        {
-            synchronized (Thread.currentThread())
-            {
-                try
-                {
+    public void run() {
+        while (!shouldStop) {
+            synchronized (Thread.currentThread()) {
+                try {
                     Thread.currentThread().wait(waitTime);
-                }
-                catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                     // Log huinya
                     shouldStop = true;
                 }
             }
 
-            synchronized (storage)
-            {
-                while(!storage.tryAdd());
+            synchronized (storage) {
+                while (!storage.tryAdd())
+                    ;
                 storage.add((T) factory.get());
             }
 
         }
     }
 
-    void terminate()
-    {
+    void terminate() {
         shouldStop = true;
     }
 }

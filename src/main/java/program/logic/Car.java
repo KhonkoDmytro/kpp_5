@@ -12,8 +12,7 @@ public class Car {
 
     static Integer lastId = 1;
 
-    public Car(Engine e, CarBody b, Accessory a)
-    {
+    public Car(Engine e, CarBody b, Accessory a) {
         engine = e;
         body = b;
         accessory = a;
@@ -21,21 +20,17 @@ public class Car {
         lastId = getAvailableId();
     }
 
-    private static Integer getAvailableId()
-    {
-        synchronized (lastId)
-        {
+    private static Integer getAvailableId() {
+        synchronized (lastId) {
             return lastId++;
         }
     }
 
-    Integer getId()
-    {
+    Integer getId() {
         return id;
     }
 
-    LocalDateTime getCreationTime()
-    {
+    LocalDateTime getCreationTime() {
         return creationTime;
     }
 }

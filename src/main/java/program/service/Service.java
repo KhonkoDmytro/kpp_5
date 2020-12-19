@@ -16,8 +16,7 @@ public class Service {
     }
 
     public void openFile(File file) {
-        
-    }
 
+    }
 
 }
