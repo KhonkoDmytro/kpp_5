@@ -28,7 +28,7 @@ public class Logger
         }
     }
 
-    public synchronized void writeLog(String logText)
+    synchronized public void writeLog(String logText)
     {
         try
         {
