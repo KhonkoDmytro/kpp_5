@@ -1,4 +1,4 @@
-package Logger;
+package program.logger;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -9,16 +9,14 @@ import java.time.format.DateTimeFormatter;
 
 public class Logger
 {
-    private static final Logger instance = new Logger();
+    private static Logger instance;
 
-    private static final String filePath;
+    private static final String filePath = "log.txt";
 
-    private static final DateTimeFormatter dateFormatter;
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss:ms:ns");
 
-    static
+    private Logger()
     {
-        filePath = "log.txt";
-        dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss:ms:ns");
         try
         {
             File logFile = new File(filePath);
@@ -29,9 +27,6 @@ public class Logger
             e.printStackTrace();
         }
     }
-
-    private Logger()
-    { }
 
     public synchronized void writeLog(String logText)
     {
@@ -47,6 +42,10 @@ public class Logger
 
     public static Logger getInstance()
     {
+        if(instance == null)
+        {
+            instance = new Logger();
+        }
         return instance;
     }
 }

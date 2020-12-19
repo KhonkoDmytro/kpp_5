@@ -1,4 +1,4 @@
-package Config;
+package program.config;
 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
@@ -13,33 +13,25 @@ import org.w3c.dom.*;
 public class Configurator
 {
     private String configFilePath = "config.xml";
-    File configFile = new File(configFilePath);
+    private File configFile = new File(configFilePath);
 
     private int storageSize;
+    private int collectorsCount;
+    private int dealersCount;
+    private int providersCount;
 
     public int GetStorageSize()
     {
         return storageSize;
     }
-
-    private int collectorsCount;
-
     public int GetCollectorsCount()
     {
         return collectorsCount;
     }
-
-
-    private int dealersCount;
-
     public int GetDealersCount()
     {
         return dealersCount;
     }
-
-
-    private int providersCount;
-
     public int GetProvidersCount()
     {
         return providersCount;
@@ -48,12 +40,12 @@ public class Configurator
     public Configurator()
     {
         if(configFile.exists())
-           getConfiguration();
+            getConfigurationFromFile();
         else
-            SetConfiguration(100, 5, 5, 5 );
+            SetConfigurationToFile(100, 5, 5, 5 );
     }
 
-    private void getConfiguration()
+    private void getConfigurationFromFile()
     {
         try
         {
@@ -88,7 +80,7 @@ public class Configurator
         }
     }
 
-    public void SetConfiguration(int storageSize,int collectorsCount, int dealersCount, int providersCount)
+    public void SetConfigurationToFile(int storageSize,int collectorsCount, int dealersCount, int providersCount)
     {
         this.storageSize = storageSize;
         this.collectorsCount = collectorsCount;
