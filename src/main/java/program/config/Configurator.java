@@ -37,6 +37,14 @@ public class Configurator
         return providersCount;
     }
 
+    public void LoadConfigFromFile(File configFile)
+    {
+        configFile = new File(configFilePath);
+        getConfigurationFromFile();
+
+        configFile = new File(this.configFilePath);
+    }
+
     public Configurator()
     {
         if(configFile.exists())
@@ -44,6 +52,8 @@ public class Configurator
         else
             SetConfigurationToFile(100, 5, 5, 5 );
     }
+
+
 
     private void getConfigurationFromFile()
     {
