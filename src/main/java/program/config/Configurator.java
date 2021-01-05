@@ -12,7 +12,7 @@ import org.w3c.dom.*;
 
 public class Configurator
 {
-    private String configFilePath = "config.xml";
+    private final String configFilePath = "config.xml";
     private File configFile = new File(configFilePath);
 
     private int storageSize;
@@ -39,10 +39,10 @@ public class Configurator
 
     public void LoadConfigFromFile(File configFile)
     {
-        configFile = new File(configFilePath);
+        this.configFile = configFile;
         getConfigurationFromFile();
-
-        configFile = new File(this.configFilePath);
+        this.configFile = new File(this.configFilePath);
+        setConfigurationToFile(storageSize,collectorsCount,dealersCount,providersCount);
     }
 
     public Configurator()
@@ -50,7 +50,7 @@ public class Configurator
         if(configFile.exists())
             getConfigurationFromFile();
         else
-            SetConfigurationToFile(100, 5, 5, 5 );
+            setConfigurationToFile(20, 5, 5, 5 );
     }
 
 
@@ -90,7 +90,7 @@ public class Configurator
         }
     }
 
-    public void SetConfigurationToFile(int storageSize,int collectorsCount, int dealersCount, int providersCount)
+    public void setConfigurationToFile(int storageSize,int collectorsCount, int dealersCount, int providersCount)
     {
         this.storageSize = storageSize;
         this.collectorsCount = collectorsCount;

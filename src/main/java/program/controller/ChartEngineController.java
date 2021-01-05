@@ -21,6 +21,11 @@ public class ChartEngineController {
     public ChartEngineController() {
         series = new XYChart.Series<>();
     }
+
+    @FXML
+    public void initialize() {
+        chart.getData().add(series);
+    }
     @FXML
     LineChart<Integer,Integer> chart;
 
@@ -35,7 +40,6 @@ public class ChartEngineController {
             series.getData().clear();
         }
         series.getData().add(new XYChart.Data<>(LocalTime.now().getSecond(), engines.size()));
-        chart.getData().add(series);
         lastUpdate = time;
     }
 }

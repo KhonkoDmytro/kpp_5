@@ -1,11 +1,8 @@
 package program.service;
 
-<<<<<<< HEAD
 import program.entity.Engine;
-=======
 import program.config.Configurator;
-import program.logic.Engine;
->>>>>>> cb646b00b072de4e8309fc325d1d5142698c9de0
+import program.logger.Logger;
 import program.logic.FactoryPipeline;
 
 import java.io.File;
@@ -14,8 +11,9 @@ import java.util.List;
 public class Service {
     private static Service instance;
 
-    private  FactoryPipeline factoryPipeline;
-    private Configurator configurator;
+    private final Logger logger = Logger.getInstance();
+    private FactoryPipeline factoryPipeline;
+    private final Configurator configurator = new Configurator();
 
     private Service() {
         /* в конфігураторі 4 гетера для того шоб витягнути дані:
@@ -24,7 +22,7 @@ public class Service {
             configurator.GetProvidersCount();
             configurator.GetStorageSize();
         */
-        factoryPipeline = new FactoryPipeline(3000,15);
+        factoryPipeline = new FactoryPipeline(3000,configurator.GetStorageSize());
         factoryPipeline.start();
     }
 
@@ -37,9 +35,12 @@ public class Service {
 
     public void openFile(File file) {
         configurator.LoadConfigFromFile(file);
+//        factoryPipeline.terminate();
+//        factoryPipeline = new FactoryPipeline(3000,configurator.GetStorageSize());
     }
 
     public List<Engine> getEngines() {
+        logger.writeLog("received engines");
         return factoryPipeline.getEngineStorage().getStorage();
     }
 
