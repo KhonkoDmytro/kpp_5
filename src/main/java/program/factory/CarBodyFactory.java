@@ -1,6 +1,6 @@
-package program.logic;
+package program.factory;
 
-import program.logic.ParticleFactory;
+import program.entity.CarBody;
 
 public class CarBodyFactory implements ParticleFactory {
     public CarBody get() {
