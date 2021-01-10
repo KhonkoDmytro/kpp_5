@@ -16,7 +16,7 @@ public class Storage<T> {
     synchronized T get()// throws StorageException
     {
         // if(storage.isEmpty()) throw new StorageException();
-        T res = storage.remove(storage.size() - 1);
+        T res = storage.remove(0);
         return res;
     }
 
