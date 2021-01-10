@@ -63,35 +63,35 @@
                 </Label>
                 <AnchorPane prefHeight="574.0" prefWidth="800.0" style="-fx-background-color: #dabdab;">
                     <children>
-                        <TableView layoutX="26.0" layoutY="32.0" prefHeight="200.0" prefWidth="216.0">
+                        <TableView fx:id="bodyTable" layoutX="26.0" layoutY="32.0" prefHeight="200.0" prefWidth="216.0">
                             <columns>
-                                <TableColumn prefWidth="70.4000244140625" text="ID" />
-                                <TableColumn text="TYPE" />
-                                <TableColumn prefWidth="75.0" text="DATA" />
+                                <TableColumn fx:id="bodyId" prefWidth="70.4000244140625" text="ID" />
+                                <TableColumn fx:id="bodyType" text="TYPE" />
+                                <TableColumn fx:id="bodyData" prefWidth="75.0" text="DATA" />
                             </columns>
                         </TableView>
                         <TableView fx:id="engineTable" layoutX="289.0" layoutY="32.0" prefHeight="200.0" prefWidth="223.0">
                             <columns>
-                                <TableColumn fx:id="engine_id" prefWidth="75.0" text="ID" />
-                                <TableColumn fx:id="engine_type" prefWidth="75.0" text="TYPE" />
-                                <TableColumn fx:id="engine_data" prefWidth="75.0" text="DATA" />
+                                <TableColumn fx:id="engineId" prefWidth="75.0" text="ID" />
+                                <TableColumn fx:id="engineType" prefWidth="75.0" text="TYPE" />
+                                <TableColumn fx:id="engineData" prefWidth="75.0" text="DATA" />
                             </columns>
                         </TableView>
-                        <TableView layoutX="556.0" layoutY="32.0" prefHeight="200.0" prefWidth="223.0">
+                        <TableView fx:id="accessoryTable" layoutX="556.0" layoutY="32.0" prefHeight="200.0" prefWidth="223.0">
                             <columns>
-                                <TableColumn prefWidth="75.0" text="ID" />
-                                <TableColumn prefWidth="75.0" text="TYPE" />
-                                <TableColumn prefWidth="75.0" text="DATA" />
+                                <TableColumn fx:id="accessoryId" prefWidth="75.0" text="ID" />
+                                <TableColumn fx:id="accessoryType" prefWidth="75.0" text="TYPE" />
+                                <TableColumn fx:id="accessoryData" prefWidth="75.0" text="DATA" />
                             </columns>
                         </TableView>
                         <Spinner fx:id="shapeSpeed" editable="true" initialValue="1" layoutX="26.0" layoutY="287.0" prefHeight="26.0" prefWidth="216.0" />
                         <Spinner fx:id="engineSpeed" editable="true" initialValue="1" layoutX="289.0" layoutY="287.0" prefHeight="26.0" prefWidth="223.0" />
                         <Spinner fx:id="accessorySpeed" editable="true" initialValue="1" layoutX="556.0" layoutY="287.0" prefHeight="26.0" prefWidth="223.0" />
-                        <TableView layoutX="289.0" layoutY="360.0" prefHeight="200.0" prefWidth="223.0">
+                        <TableView fx:id="carTable" layoutX="289.0" layoutY="360.0" prefHeight="200.0" prefWidth="223.0">
                             <columns>
-                                <TableColumn prefWidth="70.4000244140625" text="ID" />
-                                <TableColumn text="TYPE" />
-                                <TableColumn prefWidth="75.0" text="DATA" />
+                                <TableColumn fx:id="carId" prefWidth="70.4000244140625" text="ID" />
+                                <TableColumn fx:id="carType" text="TYPE" />
+                                <TableColumn fx:id="carData" prefWidth="75.0" text="DATA" />
                             </columns>
                         </TableView>
                         <Label layoutX="91.0" layoutY="5.0" text="СКЛАД КУЗОВА" />

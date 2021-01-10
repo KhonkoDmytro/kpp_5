@@ -1,5 +1,8 @@
 package program.service;
 
+import program.entity.Accessory;
+import program.entity.Car;
+import program.entity.CarBody;
 import program.entity.Engine;
 import program.config.Configurator;
 import program.logger.Logger;
@@ -42,6 +45,18 @@ public class Service {
     public List<Engine> getEngines() {
         logger.writeLog("received engines");
         return factoryPipeline.getEngineStorage().getStorage();
+    }
+
+    public List<Accessory> getAccessories() {
+        return factoryPipeline.getAccessoryStorage().getStorage();
+    }
+
+    public List<CarBody> getBodies() {
+        return  factoryPipeline.getBodyStorage().getStorage();
+    }
+
+    public List<Car> getCars() {
+        return factoryPipeline.getCarStorage().getStorage();
     }
 
     public void setEngineFactorySpeed(int i) {

@@ -1,6 +1,7 @@
 package program.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Car {
     Engine engine;
@@ -26,11 +27,12 @@ public class Car {
         }
     }
 
-    Integer getId() {
+    public Integer getId() {
         return id;
     }
 
-    LocalDateTime getCreationTime() {
-        return creationTime;
+    public String getCreationTime() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return dateFormatter.format(creationTime);
     }
 }
