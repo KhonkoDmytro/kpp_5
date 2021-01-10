@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 public class FactoryPipeline extends Thread {
 
+    //TODO: Діма зчитай з конфігу
     final int dealersCount = 1;
+    
     Storage<Accessory> accessoryStorage;
     Storage<Engine> engineStorage;
     Storage<CarBody> bodyStorage;

@@ -12,7 +12,7 @@ public class CarDealer extends Thread {
     public CarDealer(Storage<Car> cs,
                      long waitTime)
     {
-        this.waitTime = 5000;
+        this.waitTime = waitTime;
         carStorage = cs;
     }
 
