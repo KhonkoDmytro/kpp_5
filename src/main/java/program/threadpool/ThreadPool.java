@@ -1,5 +1,7 @@
 package program.threadpool;
 
+import program.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

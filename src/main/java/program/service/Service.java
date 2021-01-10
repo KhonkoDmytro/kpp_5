@@ -1,6 +1,8 @@
 package program.service;
 
-import program.logic.Engine;
+import program.entity.Engine;
+import program.config.Configurator;
+import program.logger.Logger;
 import program.logic.FactoryPipeline;
 
 import java.io.File;
@@ -9,10 +11,18 @@ import java.util.List;
 public class Service {
     private static Service instance;
 
-    private  FactoryPipeline factoryPipeline;
+    private final Logger logger = Logger.getInstance();
+    private FactoryPipeline factoryPipeline;
+    private final Configurator configurator = new Configurator();
 
     private Service() {
-        factoryPipeline = new FactoryPipeline(3000,15);
+        /* в конфігураторі 4 гетера для того шоб витягнути дані:
+            configurator.GetCollectorsCount();
+            configurator.GetDealersCount();
+            configurator.GetProvidersCount();
+            configurator.GetStorageSize();
+        */
+        factoryPipeline = new FactoryPipeline(3000,configurator.GetStorageSize());
         factoryPipeline.start();
     }
 
@@ -24,10 +34,13 @@ public class Service {
     }
 
     public void openFile(File file) {
-
+        configurator.LoadConfigFromFile(file);
+//        factoryPipeline.terminate();
+//        factoryPipeline = new FactoryPipeline(3000,configurator.GetStorageSize());
     }
 
     public List<Engine> getEngines() {
+        logger.writeLog("received engines");
         return factoryPipeline.getEngineStorage().getStorage();
     }
 

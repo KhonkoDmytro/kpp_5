@@ -1,5 +1,9 @@
 package program.logic;
 
+import program.entity.Accessory;
+import program.entity.Car;
+import program.entity.CarBody;
+import program.entity.Engine;
 import program.threadpool.ThreadPool;
 
 public class CarMounter extends Thread {
