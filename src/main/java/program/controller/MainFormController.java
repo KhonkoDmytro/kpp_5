@@ -24,7 +24,13 @@ public class MainFormController extends View {
     private final Service service = Service.getInstance();
     long waitTime = 500;
     Boolean shouldClose = false;
+    TestThread th;
 
+    public MainFormController()
+    {
+        th = new TestThread();
+        th.start();
+    }
 
     @FXML
     public void openConfig() {
@@ -72,6 +78,11 @@ public class MainFormController extends View {
                 }
             }
         }
+
+        void terminate()
+        {
+            shouldClose = true;
+        }
     }
 
 
@@ -99,13 +110,8 @@ public class MainFormController extends View {
 //    }
     @FXML
     public void setList() {
-
-
-
-        TestThread th = new TestThread();
-        th.start();
-
-
+        service.terminate();
+        th.terminate();
     }
     @FXML
     public void changeToEngineStat() throws IOException {

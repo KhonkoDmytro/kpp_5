@@ -70,4 +70,8 @@ public class Service {
     public void setBodyFactorySpeed(int i) {
         factoryPipeline.setCarBodyProducerWaitTime(i);
     }
+
+    public void terminate() {
+        factoryPipeline.terminate();
+    }
 }

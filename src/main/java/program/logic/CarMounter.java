@@ -59,11 +59,11 @@ public class CarMounter extends Thread {
         threadpool.start();
         while (!shouldStop) {
             Logger.getInstance().writeLog("sooqa1");
-            synchronized (accessoryStorage) {
+//            synchronized (accessoryStorage) {
                 Logger.getInstance().writeLog("sooqa2");
-                synchronized (engineStorage) {
+//                synchronized (engineStorage) {
                     Logger.getInstance().writeLog("sooqa3");
-                    synchronized (bodyStorage) {
+//                    synchronized (bodyStorage) {
                         Logger.getInstance().writeLog("sooqa4");
                         Runnable r = new CreateCar();
                         threadpool.enqueue(r);
@@ -71,21 +71,21 @@ public class CarMounter extends Thread {
                             try {
                                 Logger.getInstance().writeLog("sooqa5");
                                 Thread.currentThread().wait(waitTime);
-//                                r.run();
                             } catch (InterruptedException e) {
                                 Logger.getInstance().writeLog("sooqa6");
                                 shouldStop = true;
                             }
                         }
-                    }
-                }
-            }
+//                    }
+//                }
+//            }
         }
     }
 
     public void terminate() {
         shouldStop = true;
         threadpool.dequeue();
+        threadpool.setShouldStop();
     }
 
 }

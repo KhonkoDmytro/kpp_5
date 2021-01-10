@@ -15,6 +15,10 @@ public class ThreadPool extends Thread {
 
     boolean shouldStop = false;
 
+    public void setShouldStop() {
+        shouldStop = true;
+    }
+
     class NotifyThreadEndedCommand implements Runnable
     {
         int threadIndex;
@@ -41,22 +45,22 @@ public class ThreadPool extends Thread {
         this.size = 5;
         this.threadsQueue = new LinkedBlockingQueue<>();
         this.threads = new ArrayList<Thread>(size);
-
         for(int i = 0; i < size; i++)
         {
             availableThreads.add(i);
+            threads.add(null);
         }
     }
 
-    public ThreadPool(int size) {
-        this.size = size;
-        this.threadsQueue = new LinkedBlockingQueue<Runnable>(size);
-        this.threads = new ArrayList<Thread>(size);
-        for (int i = 0; i < size; ++i) {
-            threads.set(i, (Thread)(new Thread()));
-            threads.get(i).start();
-        }
-    }
+//    public ThreadPool(int size) {
+//        this.size = size;
+//        this.threadsQueue = new LinkedBlockingQueue<Runnable>(size);
+//        this.threads = new ArrayList<Thread>(size);
+//        for (int i = 0; i < size; ++i) {
+//            threads.set(i, (Thread)(new Thread()));
+//            threads.get(i).start();
+//        }
+//    }
 
     public int getSize() {
         return size;
@@ -71,7 +75,7 @@ public class ThreadPool extends Thread {
         synchronized (this.threadsQueue) {
             this.threadsQueue.add(r);
             Logger.getInstance().writeLog("added runnable to queue");
-            this.threadsQueue.notify();
+//            this.threadsQueue.notify();
             Logger.getInstance().writeLog("Notified after add(r)");
         }
     }
@@ -101,7 +105,7 @@ public class ThreadPool extends Thread {
                 int i = availableThreads.get(0);
 
                 threads.set(i, new Thread(r));
-
+                System.out.println("New thread started");
                 threads.get(i).start();
 
                 Thread waitThread = new Thread(new NotifyThreadEndedCommand(i));
