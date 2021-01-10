@@ -7,6 +7,7 @@ import program.entity.Engine;
 import program.factory.AccessoryFactory;
 import program.factory.CarBodyFactory;
 import program.factory.EngineFactory;
+import program.logger.Logger;
 import program.threadpool.ThreadPool;
 
 public class FactoryPipeline extends Thread {
@@ -29,6 +30,8 @@ public class FactoryPipeline extends Thread {
         bodyStorage = new Storage<>(maxSize);
         carStorage = new Storage<>(maxSize);
 
+        threadpool = new ThreadPool<>();
+
         accessoryProducer = new ParticleProducer<>(accessoryStorage, new AccessoryFactory(), initialTime);
         engineProducer = new ParticleProducer<>(engineStorage, new EngineFactory(), initialTime);
         bodyProducer = new ParticleProducer<>(bodyStorage, new CarBodyFactory(), initialTime);
@@ -45,7 +48,7 @@ public class FactoryPipeline extends Thread {
         accessoryProducer.start();
         engineProducer.start();
         bodyProducer.start();
-
+        Logger.getInstance().writeLog("carMounter.start()");
         carMounter.start();
 
     }
@@ -83,7 +86,6 @@ public class FactoryPipeline extends Thread {
         engineProducer.terminate();
         bodyProducer.terminate();
         carMounter.terminate();
-
         try {
             accessoryProducer.join();
             engineProducer.join();

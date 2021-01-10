@@ -4,6 +4,7 @@ import program.entity.Accessory;
 import program.entity.Car;
 import program.entity.CarBody;
 import program.entity.Engine;
+import program.logger.Logger;
 import program.threadpool.ThreadPool;
 
 public class CarMounter extends Thread {
@@ -23,13 +24,14 @@ public class CarMounter extends Thread {
             if (accessoryStorage.tryGet() &&
                 engineStorage.tryGet() &&
                 bodyStorage.tryGet()) {
+                Logger.getInstance().writeLog("createcar1");
                 Car newCar = new Car(engineStorage.get(),
                     bodyStorage.get(),
                     accessoryStorage.get());
                 synchronized (carStorage) {
                     while (!carStorage.tryAdd())
                         ;
-
+                    Logger.getInstance().writeLog("createcar2");
                     carStorage.add(newCar);
                 }
 
@@ -53,18 +55,28 @@ public class CarMounter extends Thread {
     }
 
     public void run() {
-        while (shouldStop) {
+        Logger.getInstance().writeLog("sooqa0");
+        while (!shouldStop) {
+            Logger.getInstance().writeLog("sooqa1");
             synchronized (accessoryStorage) {
+                Logger.getInstance().writeLog("sooqa2");
                 synchronized (engineStorage) {
+                    Logger.getInstance().writeLog("sooqa3");
                     synchronized (bodyStorage) {
-                        threadpool.enqueue(new CreateCar());
+                        Logger.getInstance().writeLog("sooqa4");
+                        Runnable r = new CreateCar();
+                        threadpool.enqueue(r);
                         // command factory singleton threadpool, mvc
                         synchronized (Thread.currentThread()) {
                             try {
+                                Logger.getInstance().writeLog("sooqa5");
                                 Thread.currentThread().wait(waitTime);
+                                r.run();
                             } catch (InterruptedException e) {
                                 // Log huinya
+                                Logger.getInstance().writeLog("sooqa6");
                                 shouldStop = true;
+                                threadpool.dequeue();
                             }
                         }
                     }
@@ -75,6 +87,7 @@ public class CarMounter extends Thread {
 
     public void terminate() {
         shouldStop = true;
+        threadpool.dequeue();
     }
 
 }

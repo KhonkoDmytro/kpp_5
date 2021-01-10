@@ -21,7 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainFormController extends View {
-    Service service = Service.getInstance();
+    private final Service service = Service.getInstance();
+
 
     @FXML
     public void openConfig() {
@@ -48,8 +49,14 @@ public class MainFormController extends View {
                 column.setStyle("-fx-background-color:lightcoral");
             }
         }
-        ObservableList<Engine> list = FXCollections.observableArrayList(service.getEngines());
-        engineTable.setItems(list);
+        engineList.clear();
+        bodyList.clear();
+        accessoryList.clear();
+        carList.clear();
+        engineList.addAll(FXCollections.observableArrayList(service.getEngines()));
+        bodyList.addAll(FXCollections.observableArrayList(service.getBodies()));
+        accessoryList.addAll(FXCollections.observableArrayList(service.getAccessories()));
+        carList.addAll(FXCollections.observableArrayList(service.getCars()));
     }
     @FXML
     public void changeToEngineStat() throws IOException {
