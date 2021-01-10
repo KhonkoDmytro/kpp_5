@@ -85,7 +85,7 @@
                             </columns>
                         </TableView>
                         <Spinner fx:id="shapeSpeed" editable="true" initialValue="1" layoutX="26.0" layoutY="287.0" prefHeight="26.0" prefWidth="216.0" />
-                        <Spinner fx:id="engineSpeed" editable="true" initialValue="1" layoutX="289.0" layoutY="287.0" prefHeight="26.0" prefWidth="223.0" />
+                        <Spinner fx:id="engineSpeed" editable="true" initialValue="1" layoutX="289.0" layoutY="287.0" onInputMethodTextChanged="#setEngineFactorySpeed" prefHeight="26.0" prefWidth="223.0" />
                         <Spinner fx:id="accessorySpeed" editable="true" initialValue="1" layoutX="556.0" layoutY="287.0" prefHeight="26.0" prefWidth="223.0" />
                         <TableView fx:id="carTable" layoutX="289.0" layoutY="360.0" prefHeight="200.0" prefWidth="223.0">
                             <columns>
