@@ -66,7 +66,7 @@ public class ThreadPool extends Thread {
         this.size = size;
     }
 
-    public void enqueue(Runnable r) {
+    public synchronized void enqueue(Runnable r) {
         Logger.getInstance().writeLog("zaishlo chy ne");
         synchronized (this.threadsQueue) {
             this.threadsQueue.add(r);
@@ -80,6 +80,7 @@ public class ThreadPool extends Thread {
         return this.threadsQueue.poll();
     }
 
+    @Override
     public void run()
     {
         while(!shouldStop)
@@ -87,7 +88,7 @@ public class ThreadPool extends Thread {
             Runnable r = dequeue();
             if(r != null)
             {
-                while(!availableThreads.isEmpty()) {
+                while(availableThreads.isEmpty()) {
                     synchronized (Thread.currentThread()) {
                         try {
                             Thread.currentThread().wait(waitTime);

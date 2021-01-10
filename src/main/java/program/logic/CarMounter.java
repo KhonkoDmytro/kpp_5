@@ -56,6 +56,7 @@ public class CarMounter extends Thread {
 
     public void run() {
         Logger.getInstance().writeLog("sooqa0");
+        threadpool.start();
         while (!shouldStop) {
             Logger.getInstance().writeLog("sooqa1");
             synchronized (accessoryStorage) {
@@ -70,12 +71,10 @@ public class CarMounter extends Thread {
                             try {
                                 Logger.getInstance().writeLog("sooqa5");
                                 Thread.currentThread().wait(waitTime);
-                                r.run();
+//                                r.run();
                             } catch (InterruptedException e) {
-                                // Log huinya
                                 Logger.getInstance().writeLog("sooqa6");
                                 shouldStop = true;
-                                threadpool.dequeue();
                             }
                         }
                     }
