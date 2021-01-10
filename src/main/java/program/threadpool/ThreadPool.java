@@ -105,7 +105,7 @@ public class ThreadPool extends Thread {
                 int i = availableThreads.get(0);
 
                 threads.set(i, new Thread(r));
-                System.out.println("New thread started");
+//                System.out.println("New thread started");
                 threads.get(i).start();
 
                 Thread waitThread = new Thread(new NotifyThreadEndedCommand(i));

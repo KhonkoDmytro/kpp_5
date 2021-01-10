@@ -46,7 +46,7 @@ public class MainFormController extends View {
     public void setEngineFactorySpeed() {
         int value = engineSpeed.getValue();
         service.setEngineFactorySpeed(5000/value);
-        System.out.println("Changed");
+//        System.out.println("Changed");
     }
 
 //    void SpinnerStart()

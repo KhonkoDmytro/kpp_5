@@ -72,17 +72,17 @@ public class FactoryPipeline extends Thread {
     }
 
     public Storage<Accessory> getAccessoryStorage() {
-        System.out.println(accessoryStorage.getStorage().size());
+//        System.out.println(accessoryStorage.getStorage().size());
         return accessoryStorage;
     }
 
     public Storage<Engine> getEngineStorage() {
-        System.out.println(engineStorage.getStorage().size());
+//        System.out.println(engineStorage.getStorage().size());
         return engineStorage;
     }
 
     public Storage<CarBody> getBodyStorage() {
-        System.out.println(bodyStorage.getStorage().size());
+//        System.out.println(bodyStorage.getStorage().size());
         return bodyStorage;
     }
 
