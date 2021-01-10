@@ -36,7 +36,7 @@ public class MainFormController extends View {
         service.openFile(config);
     }
 
-    @FXML
+    @Override
     public void setEngineFactorySpeed() {
         int value = engineSpeed.getValue();
         service.setEngineFactorySpeed(5000/value);
@@ -53,9 +53,8 @@ public class MainFormController extends View {
 //    }
 
     class TestThread extends Thread {
-        public void run()
-        {
-            while(!shouldClose) {
+        public void run() {
+            while (!shouldClose) {
                 engineList.clear();
                 bodyList.clear();
                 accessoryList.clear();
@@ -74,10 +73,22 @@ public class MainFormController extends View {
             }
         }
     }
-    @FXML
-    public void setList() {
 
 
+    @Override
+    public void setAccessoryFactorySpeed() {
+        int value = accessorySpeed.getValue();
+        service.setAccessoryFactorySpeed(5000/value);
+    }
+
+    @Override
+    public void setBodyFactorySpeed() {
+        int value = shapeSpeed.getValue();
+        service.setBodyFactorySpeed(5000/value);
+    }
+
+//    @FXML
+//    public void setList() {
 //        List<Engine> test = service.getEngines();
 //        if(test.size()==15) {
 //            engineTable.setStyle("-fx-background-color: #f08080;");
@@ -85,6 +96,12 @@ public class MainFormController extends View {
 //                column.setStyle("-fx-background-color:lightcoral");
 //            }
 //        }
+//    }
+    @FXML
+    public void setList() {
+
+
+
         TestThread th = new TestThread();
         th.start();
 
