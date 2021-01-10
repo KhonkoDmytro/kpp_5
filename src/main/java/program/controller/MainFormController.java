@@ -34,10 +34,22 @@ public class MainFormController extends View {
         service.openFile(config);
     }
 
-    @FXML
+    @Override
     public void setEngineFactorySpeed() {
         int value = engineSpeed.getValue();
         service.setEngineFactorySpeed(5000/value);
+    }
+
+    @Override
+    public void setAccessoryFactorySpeed() {
+        int value = accessorySpeed.getValue();
+        service.setAccessoryFactorySpeed(5000/value);
+    }
+
+    @Override
+    public void setBodyFactorySpeed() {
+        int value = shapeSpeed.getValue();
+        service.setBodyFactorySpeed(5000/value);
     }
 
     @FXML

@@ -62,4 +62,12 @@ public class Service {
     public void setEngineFactorySpeed(int i) {
         factoryPipeline.setEngineProducerWaitTime(i);
     }
+
+    public void setAccessoryFactorySpeed(int i) {
+        factoryPipeline.setAccessoryProducerWaitTime(i);
+    }
+
+    public void setBodyFactorySpeed(int i) {
+        factoryPipeline.setCarBodyProducerWaitTime(i);
+    }
 }

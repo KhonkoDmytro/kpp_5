@@ -67,8 +67,11 @@ public abstract class View {
         bodyTable.setItems(bodyList);
         accessoryTable.setItems(accessoryList);
         shapeSpeed.setValueFactory(getSpinnerValueFactory(initialValue));
+        shapeSpeed.getValueFactory().valueProperty().addListener(observable -> setBodyFactorySpeed());
         engineSpeed.setValueFactory(getSpinnerValueFactory(initialValue));
+        engineSpeed.getValueFactory().valueProperty().addListener(observable -> setEngineFactorySpeed());
         accessorySpeed.setValueFactory(getSpinnerValueFactory(initialValue));
+        accessorySpeed.getValueFactory().valueProperty().addListener(observable -> setAccessoryFactorySpeed());
         engineId.setCellValueFactory(new PropertyValueFactory<>("id"));
         engineType.setCellValueFactory(new PropertyValueFactory<>("type"));
         engineData.setCellValueFactory(new PropertyValueFactory<>("creationTime"));
@@ -86,13 +89,14 @@ public abstract class View {
             column.setStyle("-fx-background-color:lightgreen");
         }
     }
+
     protected SpinnerValueFactory<Integer> getSpinnerValueFactory(int initialValue) {
-        SpinnerValueFactory<Integer> spinnerValueFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
-        spinnerValueFactory.valueProperty().addListener(observable -> setEngineFactorySpeed());
-        return spinnerValueFactory;
+        return new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, initialValue);
     }
 
-    @FXML
     public abstract void setEngineFactorySpeed();
+
+    public abstract void setAccessoryFactorySpeed();
+
+    public abstract void setBodyFactorySpeed();
 }
