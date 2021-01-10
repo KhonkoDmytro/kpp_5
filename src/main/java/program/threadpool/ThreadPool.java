@@ -3,38 +3,57 @@ package program.threadpool;
 import program.logger.Logger;
 
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.SynchronousQueue;
 
-public class ThreadPool<T extends Thread> {
+public class ThreadPool extends Thread {
     private int size;
-    private ArrayList<T> threads;
-    private Queue<Runnable> threadsQueue;
+    long waitTime = 500;
+    private ArrayList<Thread> threads;
+    private BlockingQueue<Runnable> threadsQueue;
+    ArrayList<Integer> availableThreads = new ArrayList<Integer>();
 
+    boolean shouldStop = false;
+
+    class NotifyThreadEndedCommand implements Runnable
+    {
+        int threadIndex;
+
+        public NotifyThreadEndedCommand(int index)
+        {
+            threadIndex = index;
+        }
+
+        @Override
+        public void run() {
+            try
+            {
+                threads.get(threadIndex).join();
+                availableThreads.add(threadIndex);
+            }
+            catch(InterruptedException e)
+            {
+                shouldStop = true;
+            }
+        }
+    }
     public ThreadPool() {
         this.size = 5;
-        this.threadsQueue = new ConcurrentLinkedQueue<>();
-        this.threads = new ArrayList<T>(size);
-        for(int i = 0; i < threads.size(); ++i)
+        this.threadsQueue = new LinkedBlockingQueue<>();
+        this.threads = new ArrayList<Thread>(size);
+
+        for(int i = 0; i < size; i++)
         {
-            threads.set(i, (T)(new Thread()));
-            threads.get(i).start();
+            availableThreads.add(i);
         }
-//        for (int i = 0; i < size; ++i) {
-//            threads.set(i, (T) new Thread());
-//            threads.get(i).start();
-//        }
     }
 
     public ThreadPool(int size) {
         this.size = size;
         this.threadsQueue = new LinkedBlockingQueue<Runnable>(size);
-        this.threads = new ArrayList<T>(size);
+        this.threads = new ArrayList<Thread>(size);
         for (int i = 0; i < size; ++i) {
-            threads.set(i, (T)(new Thread()));
+            threads.set(i, (Thread)(new Thread()));
             threads.get(i).start();
         }
     }
@@ -61,6 +80,51 @@ public class ThreadPool<T extends Thread> {
         return this.threadsQueue.poll();
     }
 
+    public void run()
+    {
+        while(!shouldStop)
+        {
+            Runnable r = dequeue();
+            if(r != null)
+            {
+                while(!availableThreads.isEmpty()) {
+                    synchronized (Thread.currentThread()) {
+                        try {
+                            Thread.currentThread().wait(waitTime);
+                        } catch (InterruptedException e) {
+                            shouldStop = true;
+                        }
+                    }
+                }
+
+                int i = availableThreads.get(0);
+
+                threads.set(i, new Thread(r));
+
+                threads.get(i).start();
+
+                Thread waitThread = new Thread(new NotifyThreadEndedCommand(i));
+                waitThread.start();
+
+            }
+            else
+            {
+                synchronized (Thread.currentThread()) {
+                    try {
+                        Thread.currentThread().wait(waitTime);
+                    } catch (InterruptedException e) {
+                        shouldStop = true;
+                    }
+                }
+            }
+
+        }
+    }
+
+    public void terminate()
+    {
+        shouldStop = true;
+    }
 // *** так приблизно мав би виглядати робітник, який переданий в ThreadPool (threads) *** //
 //    public class Worker extends Thread
 //    {

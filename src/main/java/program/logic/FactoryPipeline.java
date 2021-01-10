@@ -30,7 +30,7 @@ public class FactoryPipeline extends Thread {
         bodyStorage = new Storage<>(maxSize);
         carStorage = new Storage<>(maxSize);
 
-        threadpool = new ThreadPool<>();
+        threadpool = new ThreadPool();
 
         accessoryProducer = new ParticleProducer<>(accessoryStorage, new AccessoryFactory(), initialTime);
         engineProducer = new ParticleProducer<>(engineStorage, new EngineFactory(), initialTime);
@@ -54,14 +54,17 @@ public class FactoryPipeline extends Thread {
     }
 
     public Storage<Accessory> getAccessoryStorage() {
+        System.out.println(accessoryStorage.getStorage().size());
         return accessoryStorage;
     }
 
     public Storage<Engine> getEngineStorage() {
+        System.out.println(engineStorage.getStorage().size());
         return engineStorage;
     }
 
     public Storage<CarBody> getBodyStorage() {
+        System.out.println(bodyStorage.getStorage().size());
         return bodyStorage;
     }
 

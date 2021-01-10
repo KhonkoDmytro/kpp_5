@@ -93,6 +93,7 @@ public abstract class View {
         return spinnerValueFactory;
     }
 
+
     @FXML
     public abstract void setEngineFactorySpeed();
 }

@@ -66,7 +66,6 @@ public class CarMounter extends Thread {
                         Logger.getInstance().writeLog("sooqa4");
                         Runnable r = new CreateCar();
                         threadpool.enqueue(r);
-                        // command factory singleton threadpool, mvc
                         synchronized (Thread.currentThread()) {
                             try {
                                 Logger.getInstance().writeLog("sooqa5");

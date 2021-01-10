@@ -22,6 +22,8 @@ import java.util.List;
 
 public class MainFormController extends View {
     private final Service service = Service.getInstance();
+    long waitTime = 500;
+    Boolean shouldClose = false;
 
 
     @FXML
@@ -38,25 +40,55 @@ public class MainFormController extends View {
     public void setEngineFactorySpeed() {
         int value = engineSpeed.getValue();
         service.setEngineFactorySpeed(5000/value);
+        System.out.println("Changed");
     }
 
-    @FXML
-    public void setList() {
-        List<Engine> test = service.getEngines();
-        if(test.size()==15) {
-            engineTable.setStyle("-fx-background-color: #f08080;");
-            for (TableColumn<Engine, ?> column : engineTable.getColumns()) {
-                column.setStyle("-fx-background-color:lightcoral");
+//    void SpinnerStart()
+//    {
+//        spinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+//            if (!"".equals(newValue)) {
+//                System.out.println("spiinerrrr");
+//            }
+//        });
+//    }
+
+    class TestThread extends Thread {
+        public void run()
+        {
+            while(!shouldClose) {
+                engineList.clear();
+                bodyList.clear();
+                accessoryList.clear();
+                carList.clear();
+                engineList.addAll(FXCollections.observableArrayList(service.getEngines()));
+                bodyList.addAll(FXCollections.observableArrayList(service.getBodies()));
+                accessoryList.addAll(FXCollections.observableArrayList(service.getAccessories()));
+                carList.addAll(FXCollections.observableArrayList(service.getCars()));
+                synchronized (Thread.currentThread()) {
+                    try {
+                        Thread.currentThread().wait(waitTime);
+                    } catch (InterruptedException e) {
+                        shouldClose = true;
+                    }
+                }
             }
         }
-        engineList.clear();
-        bodyList.clear();
-        accessoryList.clear();
-        carList.clear();
-        engineList.addAll(FXCollections.observableArrayList(service.getEngines()));
-        bodyList.addAll(FXCollections.observableArrayList(service.getBodies()));
-        accessoryList.addAll(FXCollections.observableArrayList(service.getAccessories()));
-        carList.addAll(FXCollections.observableArrayList(service.getCars()));
+    }
+    @FXML
+    public void setList() {
+
+
+//        List<Engine> test = service.getEngines();
+//        if(test.size()==15) {
+//            engineTable.setStyle("-fx-background-color: #f08080;");
+//            for (TableColumn<Engine, ?> column : engineTable.getColumns()) {
+//                column.setStyle("-fx-background-color:lightcoral");
+//            }
+//        }
+        TestThread th = new TestThread();
+        th.start();
+
+
     }
     @FXML
     public void changeToEngineStat() throws IOException {
