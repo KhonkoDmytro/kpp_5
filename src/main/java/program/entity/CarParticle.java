@@ -15,7 +15,7 @@ public class CarParticle {
         id = getAvailableId();
     }
 
-    private static Integer getAvailableId() {
+    private synchronized static Integer getAvailableId() {
         synchronized (lastId) {
             return lastId++;
         }
