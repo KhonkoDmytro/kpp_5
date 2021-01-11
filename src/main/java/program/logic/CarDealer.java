@@ -9,36 +9,27 @@ public class CarDealer extends Thread {
     long waitTime;
     Storage<Car> carStorage;
     ArrayList<Car> cars = new ArrayList<>();
+
     public CarDealer(Storage<Car> cs,
-                     long waitTime)
-    {
+        long waitTime) {
         this.waitTime = waitTime;
         carStorage = cs;
     }
 
-    public void run()
-    {
-        while(!shouldStop)
-        {
-            synchronized (Thread.currentThread())
-            {
-                try
-                {
-                    while(!carStorage.tryGet())
-                    {
+    public void run() {
+        while (!shouldStop) {
+            synchronized (Thread.currentThread()) {
+                try {
+                    while (!carStorage.tryGet()) {
                         Thread.currentThread().wait(100);
                     }
-                    //synchronized (carStorage)
-       //             {
-                        if(carStorage.tryGet())
-                        {
+                    synchronized (carStorage) {
+                        if (carStorage.tryGet()) {
                             cars.add(carStorage.get());
-                            Thread.currentThread().wait(waitTime);
                         }
-                    //}
-                }
-                catch(InterruptedException e)
-                {
+                    }
+                    Thread.currentThread().wait(waitTime);
+                } catch (InterruptedException e) {
                     shouldStop = true;
                 }
 
@@ -47,13 +38,11 @@ public class CarDealer extends Thread {
         }
     }
 
-    public void terminate()
-    {
+    public void terminate() {
         shouldStop = true;
     }
 
-    synchronized void setWaitTime(long milliseconds)
-    {
+    synchronized void setWaitTime(long milliseconds) {
         this.waitTime = milliseconds;
     }
 }

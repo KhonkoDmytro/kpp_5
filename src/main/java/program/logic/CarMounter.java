@@ -58,27 +58,17 @@ public class CarMounter extends Thread {
         Logger.getInstance().writeLog("sooqa0");
         threadpool.start();
         while (!shouldStop) {
-            Logger.getInstance().writeLog("sooqa1");
-//            synchronized (accessoryStorage) {
-                Logger.getInstance().writeLog("sooqa2");
-//                synchronized (engineStorage) {
-                    Logger.getInstance().writeLog("sooqa3");
-//                    synchronized (bodyStorage) {
-                        Logger.getInstance().writeLog("sooqa4");
-                        Runnable r = new CreateCar();
-                        threadpool.enqueue(r);
-                        synchronized (Thread.currentThread()) {
-                            try {
-                                Logger.getInstance().writeLog("sooqa5");
-                                Thread.currentThread().wait(waitTime);
-                            } catch (InterruptedException e) {
-                                Logger.getInstance().writeLog("sooqa6");
-                                shouldStop = true;
-                            }
-                        }
-//                    }
-//                }
-//            }
+            Runnable r = new CreateCar();
+            threadpool.enqueue(r);
+            synchronized (Thread.currentThread()) {
+                try {
+                    Logger.getInstance().writeLog("sooqa5");
+                    Thread.currentThread().wait(waitTime);
+                } catch (InterruptedException e) {
+                    Logger.getInstance().writeLog("sooqa6");
+                    shouldStop = true;
+                }
+            }
         }
     }
 

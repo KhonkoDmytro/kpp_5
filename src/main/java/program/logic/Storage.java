@@ -1,28 +1,25 @@
 package program.logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Storage<T> {
-    // То для Діми (changedSinceLastCheck теж)
     Boolean changed;
 
     Integer maxSize;
-    private ArrayList<T> storage = new ArrayList<>();
+    private final List<T> storage = Collections.synchronizedList(new ArrayList<>());
 
     public Storage(int maxSize) {
         this.maxSize = maxSize;
     }
 
-    synchronized T get()// throws StorageException
-    {
-        // if(storage.isEmpty()) throw new StorageException();
+    synchronized T get() {
         T res = storage.remove(0);
         return res;
     }
 
-    synchronized void add(T particle)// throws StorageException
-    {
-        // if(storage.size() == maxSize) throw new StorageException();
+    synchronized void add(T particle) {
         storage.add(particle);
     }
 
@@ -40,7 +37,7 @@ public class Storage<T> {
         return res;
     }
 
-    public ArrayList<T> getStorage() {
+    public List<T> getStorage() {
         return storage;
     }
 }

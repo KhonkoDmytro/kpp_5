@@ -9,9 +9,10 @@ class StorageTest {
     Storage<Engine> storage = new Storage<>(2);
 
     Engine engine = new Engine();
+
     @Test
     void addTest() {
         storage.add(engine);
-        assertEquals(engine,storage.get());
+        assertEquals(engine, storage.get());
     }
 }
