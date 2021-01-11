@@ -8,7 +8,7 @@ public class ParticleProducer<T extends CarParticle> extends Thread {
     boolean shouldStop = false;
     Storage<T> storage;
     ParticleFactory factory;
-
+    int generatedParticlesCount = 0;
     public ParticleProducer(Storage<T> storage, ParticleFactory factory, long initialWaitTime) {
         this.storage = storage;
         this.factory = factory;
@@ -33,12 +33,15 @@ public class ParticleProducer<T extends CarParticle> extends Thread {
                 while (!storage.tryAdd())
                     ;
                 storage.add((T) factory.get());
+                generatedParticlesCount++;
             }
 
         }
     }
 
-    void terminate() {
+    //TODO на діма
+    public int getNumberOfCreatedParticles() { return generatedParticlesCount; }
+    public void terminate() {
         shouldStop = true;
     }
 }

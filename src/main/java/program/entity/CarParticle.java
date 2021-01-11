@@ -1,5 +1,7 @@
 package program.entity;
 
+import program.logger.Logger;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +15,8 @@ public class CarParticle {
     protected CarParticle() {
         creationTime = LocalTime.now();
         id = getAvailableId();
+        Logger.getInstance().writeLog("Creating new car particle of type " + this.getClass().getName());
+
     }
 
     private synchronized static Integer getAvailableId() {

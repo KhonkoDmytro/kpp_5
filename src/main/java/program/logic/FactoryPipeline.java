@@ -31,6 +31,7 @@ public class FactoryPipeline extends Thread {
     ThreadPool threadpool;
 
     public FactoryPipeline(int initialTime, int maxSize, int dealersCount) {
+        Logger.getInstance().writeLog("Starting program");
         accessoryStorage = new Storage<>(maxSize);
         engineStorage = new Storage<>(maxSize);
         bodyStorage = new Storage<>(maxSize);
@@ -47,7 +48,6 @@ public class FactoryPipeline extends Thread {
             carStorage,
             initialTime,
             threadpool);
-
         for (int i = 0; i < dealersCount; i++) {
             dealers.add(new CarDealer(carStorage, initialTime));
         }
@@ -94,6 +94,18 @@ public class FactoryPipeline extends Thread {
         bodyProducer.setWaitTime(milliseconds);
     }
 
+    public int getAccessoryProducerCreatedParticlesCount() {
+        return accessoryProducer.getNumberOfCreatedParticles();
+    }
+
+    public int getEngineProducerCreatedParticlesCount() {
+        return engineProducer.getNumberOfCreatedParticles();
+    }
+
+    public int getCarBodyProducerCreatedParticlesCount() {
+        return bodyProducer.getNumberOfCreatedParticles();
+    }
+
     public void setDealersWaitTime(long milliseconds) {
         for (CarDealer d : dealers) {
             d.setWaitTime(milliseconds);
@@ -105,6 +117,7 @@ public class FactoryPipeline extends Thread {
         engineProducer.terminate();
         bodyProducer.terminate();
         carMounter.terminate();
+
         for (CarDealer d : dealers) {
             d.terminate();
         }

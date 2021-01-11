@@ -12,7 +12,7 @@ public class Logger {
 
     private static final String filePath = "log.txt";
 
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss:ms:ns");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     private Logger() {
         try {
@@ -26,7 +26,7 @@ public class Logger {
     synchronized public void writeLog(String logText) {
         try {
             Files.write(Paths.get(filePath),
-                (logText + " " + dateFormatter.format(LocalDateTime.now()) + "\n").getBytes(),
+                (dateFormatter.format(LocalDateTime.now()) + "  " + logText +  "\n").getBytes(),
                 StandardOpenOption.APPEND);
         } catch (Exception e) {
             e.printStackTrace();

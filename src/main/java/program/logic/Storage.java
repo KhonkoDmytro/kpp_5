@@ -1,14 +1,18 @@
 package program.logic;
 
+import program.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Storage<T> {
+public class Storage<T extends Object> {
     Boolean changed;
 
     Integer maxSize;
     private final List<T> storage = Collections.synchronizedList(new ArrayList<>());
+
+
 
     public Storage(int maxSize) {
         this.maxSize = maxSize;

@@ -24,14 +24,12 @@ public class CarMounter extends Thread {
             if (accessoryStorage.tryGet() &&
                 engineStorage.tryGet() &&
                 bodyStorage.tryGet()) {
-                Logger.getInstance().writeLog("createcar1");
                 Car newCar = new Car(engineStorage.get(),
                     bodyStorage.get(),
                     accessoryStorage.get());
                 synchronized (carStorage) {
                     while (!carStorage.tryAdd())
                         ;
-                    Logger.getInstance().writeLog("createcar2");
                     carStorage.add(newCar);
                 }
 
@@ -55,17 +53,15 @@ public class CarMounter extends Thread {
     }
 
     public void run() {
-        Logger.getInstance().writeLog("sooqa0");
+        Logger.getInstance().writeLog("Starting car mounter");
         threadpool.start();
         while (!shouldStop) {
             Runnable r = new CreateCar();
             threadpool.enqueue(r);
             synchronized (Thread.currentThread()) {
                 try {
-                    Logger.getInstance().writeLog("sooqa5");
                     Thread.currentThread().wait(waitTime);
                 } catch (InterruptedException e) {
-                    Logger.getInstance().writeLog("sooqa6");
                     shouldStop = true;
                 }
             }
@@ -75,6 +71,7 @@ public class CarMounter extends Thread {
     public void terminate() {
         shouldStop = true;
         threadpool.dequeue();
+        Logger.getInstance().writeLog("Terminated car mounter");
         threadpool.setShouldStop();
     }
 
