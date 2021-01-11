@@ -24,7 +24,7 @@ public class ChartBodyController extends ChartController {
         th.terminate();
     }
 
-    public List<Accessory> getItems() {
-        return service.getAccessories();
+    public int getItems() {
+        return service.getBodyCount();
     }
 }

@@ -60,7 +60,7 @@ public abstract class View {
 
     @FXML
     public void initialize() {
-        int initialValue = 1;
+        int initialValue = 2;
         engineTable.setItems(engineList);
         carTable.setItems(carList);
         bodyTable.setItems(bodyList);

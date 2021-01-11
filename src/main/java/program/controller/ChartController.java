@@ -23,7 +23,7 @@ public abstract class ChartController {
     class GraphThread extends Thread {
         public void run() {
             while (!shouldClose) {
-                List<?> items = getItems();
+                int items = getItems();
                 int time = LocalTime.now().getSecond();
                 Runnable update = new Runnable() {
                     @Override
@@ -32,7 +32,7 @@ public abstract class ChartController {
                             lastUpdate = time;
                             series.getData().clear();
                         }
-                        series.getData().add(new XYChart.Data<>(LocalTime.now().getSecond(), items.size()));
+                        series.getData().add(new XYChart.Data<>(LocalTime.now().getSecond(), items));
                         lastUpdate = time;
                     }
                 };
@@ -52,7 +52,7 @@ public abstract class ChartController {
         }
     }
 
-    public abstract List<?> getItems();
+    public abstract int getItems();
 
     public abstract void terminate();
 }
