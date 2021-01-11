@@ -74,4 +74,16 @@ public class Service {
     public void setDealerSpeed(int i) {
         factoryPipeline.setDealersWaitTime(i);
     }
-}
+
+    public int getEnginesCount() {
+        return factoryPipeline.getEngineProducerCreatedParticlesCount();
+    }
+
+    public int getAccessoryCount() {
+        return factoryPipeline.getAccessoryProducerCreatedParticlesCount();
+    }
+
+    public int getBodyCount() {
+        return factoryPipeline.getCarBodyProducerCreatedParticlesCount();
+    }
+ }

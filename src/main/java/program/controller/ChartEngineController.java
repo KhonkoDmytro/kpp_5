@@ -28,7 +28,7 @@ public class ChartEngineController extends ChartController {
         th.terminate();
     }
 
-    public List<Engine> getItems() {
-        return service.getEngines();
+    public int getItems() {
+        return service.getEnginesCount();
     }
 }

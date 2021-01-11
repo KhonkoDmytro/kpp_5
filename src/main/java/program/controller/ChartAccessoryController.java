@@ -25,7 +25,7 @@ public class ChartAccessoryController extends ChartController {
         th.terminate();
     }
 
-    public List<Accessory> getItems() {
-        return service.getAccessories();
+    public int getItems() {
+        return service.getAccessoryCount();
     }
 }
