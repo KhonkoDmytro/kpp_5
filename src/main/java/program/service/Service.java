@@ -19,13 +19,8 @@ public class Service {
     private final Configurator configurator = new Configurator();
 
     private Service() {
-        /* в конфігураторі 4 гетера для того шоб витягнути дані:
-            configurator.GetCollectorsCount();
-            configurator.GetDealersCount();
-            configurator.GetProvidersCount();
-            configurator.GetStorageSize();
-        */
-        factoryPipeline = new FactoryPipeline(3000,configurator.GetStorageSize());
+        factoryPipeline =
+            new FactoryPipeline(3000, configurator.GetStorageSize(), configurator.GetDealersCount());
         factoryPipeline.start();
     }
 
@@ -38,8 +33,9 @@ public class Service {
 
     public void openFile(File file) {
         configurator.LoadConfigFromFile(file);
-//        factoryPipeline.terminate();
-//        factoryPipeline = new FactoryPipeline(3000,configurator.GetStorageSize());
+        factoryPipeline.terminate();
+        factoryPipeline =
+            new FactoryPipeline(3000, configurator.GetStorageSize(), configurator.GetDealersCount());
     }
 
     public List<Engine> getEngines() {
@@ -52,7 +48,7 @@ public class Service {
     }
 
     public List<CarBody> getBodies() {
-        return  factoryPipeline.getBodyStorage().getStorage();
+        return factoryPipeline.getBodyStorage().getStorage();
     }
 
     public List<Car> getCars() {
@@ -73,5 +69,9 @@ public class Service {
 
     public void terminate() {
         factoryPipeline.terminate();
+    }
+
+    public void setDealerSpeed(int i) {
+        factoryPipeline.setDealersWaitTime(i);
     }
 }

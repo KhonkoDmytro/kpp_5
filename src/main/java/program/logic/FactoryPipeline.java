@@ -13,9 +13,7 @@ import program.threadpool.ThreadPool;
 import java.util.ArrayList;
 
 public class FactoryPipeline extends Thread {
-
-    //TODO: Діма зчитай з конфігу
-    final int dealersCount = 1;
+    int dealersCount = 1;
 
     Storage<Accessory> accessoryStorage;
     Storage<Engine> engineStorage;
@@ -30,15 +28,14 @@ public class FactoryPipeline extends Thread {
 
     ArrayList<CarDealer> dealers = new ArrayList<>();
 
-
     ThreadPool threadpool;
 
-    public FactoryPipeline(int initialTime, int maxSize) {
+    public FactoryPipeline(int initialTime, int maxSize, int dealersCount) {
         accessoryStorage = new Storage<>(maxSize);
         engineStorage = new Storage<>(maxSize);
         bodyStorage = new Storage<>(maxSize);
         carStorage = new Storage<>(maxSize);
-
+        this.dealersCount = dealersCount;
         threadpool = new ThreadPool();
 
         accessoryProducer = new ParticleProducer<>(accessoryStorage, new AccessoryFactory(), initialTime);
@@ -51,8 +48,7 @@ public class FactoryPipeline extends Thread {
             initialTime,
             threadpool);
 
-        for(int i = 0; i < dealersCount; i++)
-        {
+        for (int i = 0; i < dealersCount; i++) {
             dealers.add(new CarDealer(carStorage, initialTime));
         }
 
@@ -65,24 +61,20 @@ public class FactoryPipeline extends Thread {
         Logger.getInstance().writeLog("carMounter.start()");
         carMounter.start();
 
-        for(CarDealer d : dealers)
-        {
+        for (CarDealer d : dealers) {
             d.start();
         }
     }
 
     public Storage<Accessory> getAccessoryStorage() {
-//        System.out.println(accessoryStorage.getStorage().size());
         return accessoryStorage;
     }
 
     public Storage<Engine> getEngineStorage() {
-//        System.out.println(engineStorage.getStorage().size());
         return engineStorage;
     }
 
     public Storage<CarBody> getBodyStorage() {
-//        System.out.println(bodyStorage.getStorage().size());
         return bodyStorage;
     }
 
@@ -102,21 +94,18 @@ public class FactoryPipeline extends Thread {
         bodyProducer.setWaitTime(milliseconds);
     }
 
-    //TODO: Діма підключи то до слайдера
-    public void setDealersWaitTime(long milliseconds)
-    {
-        for(CarDealer d : dealers)
-        {
+    public void setDealersWaitTime(long milliseconds) {
+        for (CarDealer d : dealers) {
             d.setWaitTime(milliseconds);
         }
     }
+
     public void terminate() {
         accessoryProducer.terminate();
         engineProducer.terminate();
         bodyProducer.terminate();
         carMounter.terminate();
-        for(CarDealer d : dealers)
-        {
+        for (CarDealer d : dealers) {
             d.terminate();
         }
         try {
@@ -124,8 +113,7 @@ public class FactoryPipeline extends Thread {
             engineProducer.join();
             bodyProducer.join();
             carMounter.join();
-            for(CarDealer d : dealers)
-            {
+            for (CarDealer d : dealers) {
                 d.join();
             }
         } catch (InterruptedException e) {

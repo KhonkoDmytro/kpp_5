@@ -4,7 +4,7 @@ import program.entity.CarParticle;
 import program.factory.ParticleFactory;
 
 public class ParticleProducer<T extends CarParticle> extends Thread {
-    long waitTime; // in milliseconds
+    long waitTime;
     boolean shouldStop = false;
     Storage<T> storage;
     ParticleFactory factory;
@@ -25,7 +25,6 @@ public class ParticleProducer<T extends CarParticle> extends Thread {
                 try {
                     Thread.currentThread().wait(waitTime);
                 } catch (InterruptedException e) {
-                    // Log
                     shouldStop = true;
                 }
             }

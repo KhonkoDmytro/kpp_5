@@ -9,9 +9,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 
-
-public class Configurator
-{
+public class Configurator {
     private final String configFilePath = "config.xml";
     private File configFile = new File(configFilePath);
 
@@ -20,45 +18,38 @@ public class Configurator
     private int dealersCount;
     private int providersCount;
 
-    public int GetStorageSize()
-    {
+    public int GetStorageSize() {
         return storageSize;
     }
-    public int GetCollectorsCount()
-    {
+
+    public int GetCollectorsCount() {
         return collectorsCount;
     }
-    public int GetDealersCount()
-    {
+
+    public int GetDealersCount() {
         return dealersCount;
     }
-    public int GetProvidersCount()
-    {
+
+    public int GetProvidersCount() {
         return providersCount;
     }
 
-    public void LoadConfigFromFile(File configFile)
-    {
+    public void LoadConfigFromFile(File configFile) {
         this.configFile = configFile;
         getConfigurationFromFile();
         this.configFile = new File(this.configFilePath);
-        setConfigurationToFile(storageSize,collectorsCount,dealersCount,providersCount);
+        setConfigurationToFile(storageSize, collectorsCount, dealersCount, providersCount);
     }
 
-    public Configurator()
-    {
-        if(configFile.exists())
+    public Configurator() {
+        if (configFile.exists())
             getConfigurationFromFile();
         else
-            setConfigurationToFile(20, 5, 5, 5 );
+            setConfigurationToFile(20, 5, 5, 5);
     }
 
-
-
-    private void getConfigurationFromFile()
-    {
-        try
-        {
+    private void getConfigurationFromFile() {
+        try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -83,15 +74,12 @@ public class Configurator
             nodeList = doc.getElementsByTagName("provider");
             node = nodeList.item(0);
             providersCount = Integer.parseInt(((Element) node).getAttribute("count"));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setConfigurationToFile(int storageSize,int collectorsCount, int dealersCount, int providersCount)
-    {
+    public void setConfigurationToFile(int storageSize, int collectorsCount, int dealersCount, int providersCount) {
         this.storageSize = storageSize;
         this.collectorsCount = collectorsCount;
         this.dealersCount = dealersCount;
@@ -104,7 +92,6 @@ public class Configurator
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 
             Document document = documentBuilder.newDocument();
-
 
             Element factory = document.createElement("factory");
             document.appendChild(factory);
@@ -125,7 +112,6 @@ public class Configurator
             dealer.setAttribute("count", Integer.toString(dealersCount));
             factory.appendChild(dealer);
 
-
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
 
@@ -134,9 +120,7 @@ public class Configurator
             StreamResult streamResult = new StreamResult(new File(configFilePath));
             transformer.transform(domSource, streamResult);
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

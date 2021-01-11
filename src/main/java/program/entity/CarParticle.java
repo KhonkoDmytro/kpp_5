@@ -26,7 +26,6 @@ public class CarParticle {
     }
 
     public String getCreationTime() {
-//        return Integer.toString(creationTime.();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return dateFormatter.format(creationTime);
     }

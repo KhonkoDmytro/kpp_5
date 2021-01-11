@@ -1,17 +1,14 @@
 package program.controller;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import program.entity.Engine;
-import program.service.Service;
-import java.time.LocalTime;
+import program.entity.Accessory;
+
 import java.util.List;
 
-public class ChartEngineController extends ChartController {
+public class ChartAccessoryController extends ChartController {
 
-    public ChartEngineController() {
+    public ChartAccessoryController() {
         series = new XYChart.Series<>();
         th = new GraphThread();
     }
@@ -19,7 +16,7 @@ public class ChartEngineController extends ChartController {
     @FXML
     public void initialize() {
         chart.getData().add(series);
-        series.setName("Двигуни");
+        series.setName("Аксесуари");
         th.start();
     }
 
@@ -28,7 +25,7 @@ public class ChartEngineController extends ChartController {
         th.terminate();
     }
 
-    public List<Engine> getItems() {
-        return service.getEngines();
+    public List<Accessory> getItems() {
+        return service.getAccessories();
     }
 }

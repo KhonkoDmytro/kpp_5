@@ -17,6 +17,7 @@ public class Car {
         engine = e;
         body = b;
         accessory = a;
+        id = getAvailableId();
         creationTime = LocalDateTime.now();
         lastId = getAvailableId();
     }
@@ -34,5 +35,9 @@ public class Car {
     public String getCreationTime() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return dateFormatter.format(creationTime);
+    }
+
+    public String getType() {
+        return "Car";
     }
 }
