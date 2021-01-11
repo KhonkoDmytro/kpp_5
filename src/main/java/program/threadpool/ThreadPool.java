@@ -34,6 +34,8 @@ public class ThreadPool extends Thread {
             } catch (InterruptedException e) {
                 shouldStop = true;
             }
+            //System.out.println("Thread " + threadIndex + " ended");
+
         }
     }
 
@@ -87,6 +89,7 @@ public class ThreadPool extends Thread {
 
                 threads.set(i, new Thread(r));
                 threads.get(i).start();
+               // System.out.println("Thread " + i + " started");
 
                 Thread waitThread = new Thread(new NotifyThreadEndedCommand(i));
                 waitThread.start();

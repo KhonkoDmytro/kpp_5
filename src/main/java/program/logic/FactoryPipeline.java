@@ -11,56 +11,80 @@ import program.logger.Logger;
 import program.threadpool.ThreadPool;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FactoryPipeline extends Thread {
     int dealersCount = 1;
-
+    int producersCount = 1;
+    int mountersCount = 1;
     Storage<Accessory> accessoryStorage;
     Storage<Engine> engineStorage;
     Storage<CarBody> bodyStorage;
     Storage<Car> carStorage;
 
-    ParticleProducer<Accessory> accessoryProducer;
-    ParticleProducer<Engine> engineProducer;
-    ParticleProducer<CarBody> bodyProducer;
+    List<ParticleProducer<Engine>> engineProducers;
+    List<ParticleProducer<Accessory>> accessoryProducers;
+    List<ParticleProducer<CarBody>> bodyProducers;
 
-    CarMounter carMounter;
+    List<CarMounter> carMounters;
 
     ArrayList<CarDealer> dealers = new ArrayList<>();
 
     ThreadPool threadpool;
 
-    public FactoryPipeline(int initialTime, int maxSize, int dealersCount) {
+    public FactoryPipeline(int initialTime,
+                           int maxSize,
+                           int dealersCount,
+                           int producersCount,
+                           int mountersCount) {
         Logger.getInstance().writeLog("Starting program");
         accessoryStorage = new Storage<>(maxSize);
         engineStorage = new Storage<>(maxSize);
         bodyStorage = new Storage<>(maxSize);
         carStorage = new Storage<>(maxSize);
         this.dealersCount = dealersCount;
+        this.mountersCount = mountersCount;
+        this.producersCount = producersCount;
         threadpool = new ThreadPool();
 
-        accessoryProducer = new ParticleProducer<>(accessoryStorage, new AccessoryFactory(), initialTime);
-        engineProducer = new ParticleProducer<>(engineStorage, new EngineFactory(), initialTime);
-        bodyProducer = new ParticleProducer<>(bodyStorage, new CarBodyFactory(), initialTime);
-        carMounter = new CarMounter(accessoryStorage,
-            engineStorage,
-            bodyStorage,
-            carStorage,
-            initialTime,
-            threadpool);
+        accessoryProducers = new ArrayList<>(); //new ParticleProducer<>(accessoryStorage, new AccessoryFactory(), initialTime);
+        engineProducers = new ArrayList<>(); //new ParticleProducer<>(engineStorage, new EngineFactory(), initialTime);
+        bodyProducers = new ArrayList<>(); //new ParticleProducer<>(bodyStorage, new CarBodyFactory(), initialTime);
+        carMounters = new ArrayList<>(); //;
         for (int i = 0; i < dealersCount; i++) {
             dealers.add(new CarDealer(carStorage, initialTime));
         }
-
+        for (int i = 0; i < producersCount; i++)
+        {
+            accessoryProducers.add(new ParticleProducer<>(accessoryStorage, new AccessoryFactory(), initialTime));
+            engineProducers.add(new ParticleProducer<>(engineStorage, new EngineFactory(), initialTime));
+            bodyProducers.add(new ParticleProducer<>(bodyStorage, new CarBodyFactory(), initialTime));
+        }
+        for(int i = 0; i < mountersCount; i++)
+        {
+            carMounters.add(new CarMounter(accessoryStorage,
+                    engineStorage,
+                    bodyStorage,
+                    carStorage,
+                    initialTime,
+                    threadpool));
+        }
+        CarMounter.init();
     }
 
     public void run() {
-        accessoryProducer.start();
-        engineProducer.start();
-        bodyProducer.start();
-        Logger.getInstance().writeLog("carMounter.start()");
-        carMounter.start();
-
+        for (CarMounter d : carMounters) {
+            d.start();
+        }
+        for (ParticleProducer d : accessoryProducers) {
+            d.start();
+        }
+        for (ParticleProducer d : engineProducers) {
+            d.start();
+        }
+        for (ParticleProducer d : bodyProducers) {
+            d.start();
+        }
         for (CarDealer d : dealers) {
             d.start();
         }
@@ -83,27 +107,42 @@ public class FactoryPipeline extends Thread {
     }
 
     public void setAccessoryProducerWaitTime(long milliseconds) {
-        accessoryProducer.setWaitTime(milliseconds);
+        for (ParticleProducer accessoryProducer : accessoryProducers) {
+            accessoryProducer.setWaitTime(milliseconds);
+        }
     }
 
     public void setEngineProducerWaitTime(long milliseconds) {
-        engineProducer.setWaitTime(milliseconds);
+        for (ParticleProducer engineProducer : engineProducers) {
+            engineProducer.setWaitTime(milliseconds);
+        }
     }
 
     public void setCarBodyProducerWaitTime(long milliseconds) {
-        bodyProducer.setWaitTime(milliseconds);
+        for (ParticleProducer bodyProducer : bodyProducers) {
+            bodyProducer.setWaitTime(milliseconds);
+        }
     }
 
     public int getAccessoryProducerCreatedParticlesCount() {
-        return accessoryProducer.getNumberOfCreatedParticles();
+        int all = 0;
+        for(ParticleProducer p : accessoryProducers)
+            all += p.getNumberOfCreatedParticles();
+        return all;
     }
 
     public int getEngineProducerCreatedParticlesCount() {
-        return engineProducer.getNumberOfCreatedParticles();
+        int all = 0;
+        for(ParticleProducer p : engineProducers)
+            all += p.getNumberOfCreatedParticles();
+        return all;
     }
 
     public int getCarBodyProducerCreatedParticlesCount() {
-        return bodyProducer.getNumberOfCreatedParticles();
+        int all = 0;
+        for(ParticleProducer p : bodyProducers)
+            all += p.getNumberOfCreatedParticles();
+        return all;
     }
 
     public void setDealersWaitTime(long milliseconds) {
@@ -113,19 +152,47 @@ public class FactoryPipeline extends Thread {
     }
 
     public void terminate() {
-        accessoryProducer.terminate();
-        engineProducer.terminate();
-        bodyProducer.terminate();
-        carMounter.terminate();
+//        accessoryProducer.terminate();
+//        engineProducer.terminate();
+//        bodyProducer.terminate();
+//        carMounter.terminate();
 
+        for(ParticleProducer p : bodyProducers)
+        {
+            p.terminate();
+        }
+        for(ParticleProducer p : engineProducers)
+        {
+            p.terminate();
+        }
+        for(ParticleProducer p : accessoryProducers)
+        {
+            p.terminate();
+        }
+        for(CarMounter m : carMounters)
+        {
+            m.terminate();
+        }
         for (CarDealer d : dealers) {
             d.terminate();
         }
         try {
-            accessoryProducer.join();
-            engineProducer.join();
-            bodyProducer.join();
-            carMounter.join();
+            for(ParticleProducer p : bodyProducers)
+            {
+                p.join();
+            }
+            for(ParticleProducer p : engineProducers)
+            {
+                p.join();
+            }
+            for(ParticleProducer p : accessoryProducers)
+            {
+                p.join();
+            }
+            for(CarMounter m : carMounters)
+            {
+                m.join();
+            }
             for (CarDealer d : dealers) {
                 d.join();
             }

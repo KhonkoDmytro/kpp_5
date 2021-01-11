@@ -26,6 +26,7 @@ public class ParticleProducer<T extends CarParticle> extends Thread {
                     Thread.currentThread().wait(waitTime);
                 } catch (InterruptedException e) {
                     shouldStop = true;
+                    System.out.println("Unexpected error");
                 }
             }
 

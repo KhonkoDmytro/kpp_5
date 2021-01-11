@@ -17,8 +17,8 @@ public class CarMounter extends Thread {
     boolean shouldStop = false;
     long waitTime;
 
-    ThreadPool threadpool;
-
+    static ThreadPool threadpool;
+    boolean first = true;
     private class CreateCar implements Runnable {
         public void run() {
             if (accessoryStorage.tryGet() &&
@@ -52,9 +52,12 @@ public class CarMounter extends Thread {
         threadpool = th;
     }
 
+    static public void init()
+    {
+        threadpool.start();
+    }
     public void run() {
         Logger.getInstance().writeLog("Starting car mounter");
-        threadpool.start();
         while (!shouldStop) {
             Runnable r = new CreateCar();
             threadpool.enqueue(r);

@@ -30,7 +30,7 @@ public class CarDealer extends Thread {
             synchronized (Thread.currentThread()) {
                 try {
                     while (!carStorage.tryGet()) {
-                        Thread.currentThread().wait(100);
+                        ;
                     }
                     synchronized (carStorage) {
                         if (carStorage.tryGet()) {
