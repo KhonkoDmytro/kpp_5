@@ -7,6 +7,8 @@ import program.entity.Engine;
 import program.logger.Logger;
 import program.threadpool.ThreadPool;
 
+import java.util.Random;
+
 public class CarMounter extends Thread {
     Storage<Accessory> accessoryStorage;
     Storage<Engine> engineStorage;
@@ -27,11 +29,12 @@ public class CarMounter extends Thread {
                 Car newCar = new Car(engineStorage.get(),
                     bodyStorage.get(),
                     accessoryStorage.get());
-                synchronized (carStorage) {
-                    while (!carStorage.tryAdd())
-                        ;
+//                synchronized (carStorage) {
+//                    while (!carStorage.tryAdd())
+//                        ;
                     carStorage.add(newCar);
-                }
+                    //System.out.println("Ok " + String.valueOf((new Random()).nextDouble()));
+//                }
 
             }
         }
@@ -59,8 +62,21 @@ public class CarMounter extends Thread {
     public void run() {
         Logger.getInstance().writeLog("Starting car mounter");
         while (!shouldStop) {
+            System.out.println("е1");
+            while (!accessoryStorage.tryGet() ||
+                   !engineStorage.tryGet() ||
+                   !bodyStorage.tryGet())
+            {
+                ;
+            }
+            System.out.println("е2");
+
             Runnable r = new CreateCar();
+            System.out.println("е3");
+
             threadpool.enqueue(r);
+            System.out.println("е4");
+
             synchronized (Thread.currentThread()) {
                 try {
                     Thread.currentThread().wait(waitTime);
@@ -68,14 +84,19 @@ public class CarMounter extends Thread {
                     shouldStop = true;
                 }
             }
+            System.out.println("е5");
+
+            //if(shouldStop) System.out.println("Stopping Car mounter");
         }
     }
 
     public void terminate() {
         shouldStop = true;
+        threadpool.setShouldStop();
+        threadpool.interrupt();
+        Thread.currentThread().interrupt();
         threadpool.dequeue();
         Logger.getInstance().writeLog("Terminated car mounter");
-        threadpool.setShouldStop();
     }
 
 }

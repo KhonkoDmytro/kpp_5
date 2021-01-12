@@ -44,5 +44,6 @@ public class ParticleProducer<T extends CarParticle> extends Thread {
     public int getNumberOfCreatedParticles() { return generatedParticlesCount; }
     public void terminate() {
         shouldStop = true;
+        Thread.currentThread().interrupt();
     }
 }

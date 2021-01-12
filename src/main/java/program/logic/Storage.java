@@ -27,11 +27,11 @@ public class Storage<T extends Object> {
         storage.add(particle);
     }
 
-    synchronized boolean tryAdd() {
+    boolean tryAdd() {
         return storage.size() < maxSize;
     }
 
-    synchronized boolean tryGet() {
+    boolean tryGet() {
         return storage.size() > 0;
     }
 

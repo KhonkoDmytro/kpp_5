@@ -88,6 +88,7 @@ public class MainFormController extends View {
     public void terminate() {
         service.terminate();
         th.terminate();
+        System.exit(0);
     }
 
     @FXML

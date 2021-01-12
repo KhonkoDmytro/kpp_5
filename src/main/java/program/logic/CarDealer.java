@@ -49,6 +49,7 @@ public class CarDealer extends Thread {
 
     public void terminate() {
         shouldStop = true;
+        Thread.currentThread().interrupt();
     }
 
     synchronized void setWaitTime(long milliseconds) {
