@@ -18,7 +18,7 @@ public class CarMounter extends Thread {
 
     boolean shouldStop = false;
     long waitTime;
-
+    int generatedParticlesCount = 0;
     static ThreadPool threadpool;
     boolean first = true;
     private class CreateCar implements Runnable {
@@ -29,18 +29,7 @@ public class CarMounter extends Thread {
                 Car newCar = new Car(engineStorage.get(),
                     bodyStorage.get(),
                     accessoryStorage.get());
-//                synchronized (carStorage) {
-<<<<<<< HEAD
-                    while (!carStorage.tryAdd())
-                        ;
                     carStorage.add(newCar);
-=======
-//                    while (!carStorage.tryAdd())
-//                        ;
-                    carStorage.add(newCar);
-                    //System.out.println("Ok " + String.valueOf((new Random()).nextDouble()));
->>>>>>> master
-//                }
 
             }
         }
@@ -68,20 +57,15 @@ public class CarMounter extends Thread {
     public void run() {
         Logger.getInstance().writeLog("Starting car mounter");
         while (!shouldStop) {
-//            System.out.println("е1");
             while (!accessoryStorage.tryGet() ||
                    !engineStorage.tryGet() ||
                    !bodyStorage.tryGet())
             {
                 ;
             }
-//            System.out.println("е2");
-
             Runnable r = new CreateCar();
-//            System.out.println("е3");
-
+            generatedParticlesCount++;
             threadpool.enqueue(r);
-//            System.out.println("е4");
 
             synchronized (Thread.currentThread()) {
                 try {
@@ -90,9 +74,6 @@ public class CarMounter extends Thread {
                     shouldStop = true;
                 }
             }
-//            System.out.println("е5");
-
-            //if(shouldStop) System.out.println("Stopping Car mounter");
         }
     }
 
@@ -104,5 +85,5 @@ public class CarMounter extends Thread {
         threadpool.dequeue();
         Logger.getInstance().writeLog("Terminated car mounter");
     }
-
+    public int getNumberOfCreatedParticles() { return generatedParticlesCount; }
 }

@@ -145,6 +145,14 @@ public class FactoryPipeline extends Thread {
         return all;
     }
 
+    public int getCarsCount() {
+        int all = 0;
+        for(CarMounter cm : carMounters) {
+            all+= cm.getNumberOfCreatedParticles();
+        }
+        return all;
+    }
+
     public void setDealersWaitTime(long milliseconds) {
         for (CarDealer d : dealers) {
             d.setWaitTime(milliseconds);

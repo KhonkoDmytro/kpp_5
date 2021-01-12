@@ -126,7 +126,7 @@ public class MainFormController extends View {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("chartBodyFactory.fxml"));
         Scene secondScene = new Scene(fxmlLoader.load());
         Stage newWindow = new Stage();
-        newWindow.setTitle("Графік кількості кузовів");
+        newWindow.setTitle("Графік кількості кузова");
         newWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 ((ChartController) fxmlLoader.getController()).terminate();
@@ -145,6 +145,21 @@ public class MainFormController extends View {
         newWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 ((ChartAllController) fxmlLoader.getController()).terminate();
+            }
+        });
+        newWindow.setScene(secondScene);
+        newWindow.show();
+    }
+
+    @FXML
+    public void changeToAutoStat() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("chartAutoInfo.fxml"));
+        Scene secondScene = new Scene(fxmlLoader.load());
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Графік кількості всіх авто");
+        newWindow.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                ((ChartController) fxmlLoader.getController()).terminate();
             }
         });
         newWindow.setScene(secondScene);

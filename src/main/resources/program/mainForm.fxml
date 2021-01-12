@@ -30,7 +30,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <AnchorPane prefHeight="672.0" prefWidth="829.0" style="-fx-background-color: #dabdab;">
+                <AnchorPane prefHeight="718.0" prefWidth="829.0" style="-fx-background-color: #dabdab;">
                     <children>
                         <TableView fx:id="bodyTable" layoutX="17.0" layoutY="33.0" prefHeight="200.0" prefWidth="245.0">
                             <columns>
@@ -70,9 +70,10 @@
                   <Button layoutX="360.0" layoutY="241.0" mnemonicParsing="false" onAction="#changeToEngineStat" text="Графік двигунів" />
                   <Button layoutX="626.0" layoutY="241.0" mnemonicParsing="false" onAction="#changeToAccessoryStat" text="Графік аксесуарів" />
                   <Button layoutX="89.0" layoutY="241.0" mnemonicParsing="false" onAction="#changeToBodyStat" text="Графік кузовів" />
-                  <Spinner fx:id="dealerSpeed" editable="true" initialValue="1" layoutX="307.0" layoutY="353.0" prefHeight="26.0" prefWidth="223.0" />
-                  <Label layoutX="323.0" layoutY="328.0" text="ШВИДКІСТЬ РОБОТИ ДИЛЛЕРА" />
-                  <Button layoutX="348.0" layoutY="393.0" mnemonicParsing="false" onAction="#changeToAllStat" text="Графік всіх деталей" />
+                  <Spinner fx:id="dealerSpeed" editable="true" initialValue="1" layoutX="307.0" layoutY="393.0" prefHeight="26.0" prefWidth="223.0" />
+                  <Label layoutX="319.0" layoutY="368.0" text="ШВИДКІСТЬ РОБОТИ ДИЛЛЕРА" />
+                  <Button layoutX="348.0" layoutY="323.0" mnemonicParsing="false" onAction="#changeToAllStat" text="Графік всіх деталей" />
+                  <Button layoutX="350.0" layoutY="665.0" mnemonicParsing="false" onAction="#changeToAutoStat" text="Графік автомобілів" />
                     </children>
                 </AnchorPane>
             </children>
