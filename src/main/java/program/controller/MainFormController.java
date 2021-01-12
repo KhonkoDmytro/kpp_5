@@ -82,7 +82,7 @@ public class MainFormController extends View {
     @Override
     public void setDealerSpeed() {
         int value = shapeSpeed.getValue();
-        service.setDealerSpeed(20000 / value);
+        service.setDealerSpeed(5000 / value);
     }
 
     public void terminate() {
