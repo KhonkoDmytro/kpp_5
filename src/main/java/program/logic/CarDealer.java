@@ -52,7 +52,7 @@ public class CarDealer extends Thread {
         Thread.currentThread().interrupt();
     }
 
-    synchronized void setWaitTime(long milliseconds) {
+    void setWaitTime(long milliseconds) {
         this.waitTime = milliseconds;
     }
 }

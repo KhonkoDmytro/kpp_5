@@ -62,20 +62,20 @@ public class CarMounter extends Thread {
     public void run() {
         Logger.getInstance().writeLog("Starting car mounter");
         while (!shouldStop) {
-            System.out.println("е1");
+//            System.out.println("е1");
             while (!accessoryStorage.tryGet() ||
                    !engineStorage.tryGet() ||
                    !bodyStorage.tryGet())
             {
                 ;
             }
-            System.out.println("е2");
+//            System.out.println("е2");
 
             Runnable r = new CreateCar();
-            System.out.println("е3");
+//            System.out.println("е3");
 
             threadpool.enqueue(r);
-            System.out.println("е4");
+//            System.out.println("е4");
 
             synchronized (Thread.currentThread()) {
                 try {
@@ -84,7 +84,7 @@ public class CarMounter extends Thread {
                     shouldStop = true;
                 }
             }
-            System.out.println("е5");
+//            System.out.println("е5");
 
             //if(shouldStop) System.out.println("Stopping Car mounter");
         }

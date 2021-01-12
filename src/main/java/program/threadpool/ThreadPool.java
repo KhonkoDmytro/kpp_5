@@ -58,10 +58,9 @@ public class ThreadPool extends Thread {
     }
 
     public synchronized void enqueue(Runnable r) {
-        Logger.getInstance().writeLog("zaishlo chy ne");
         synchronized (this.threadsQueue) {
             this.threadsQueue.add(r);
-            Logger.getInstance().writeLog("added runnable to queue");
+            Logger.getInstance().writeLog("Added runnable to queue");
             Logger.getInstance().writeLog("Notified after add(r)");
         }
     }
