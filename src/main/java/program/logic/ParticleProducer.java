@@ -31,18 +31,19 @@ public class ParticleProducer<T extends CarParticle> extends Thread {
             }
 
             synchronized (storage) {
-                while (!storage.tryAdd())
-                    ;
-                storage.add((T) factory.get());
-                generatedParticlesCount++;
+                if (storage.tryAdd()) {
+                    storage.add((T) factory.get());
+                    generatedParticlesCount++;
+                }
             }
 
         }
     }
 
-    //TODO на діма
+    // TODO на діма
     public int getNumberOfCreatedParticles() { return generatedParticlesCount; }
     public void terminate() {
         shouldStop = true;
+        Thread.currentThread().interrupt();
     }
 }
