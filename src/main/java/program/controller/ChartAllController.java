@@ -26,7 +26,7 @@ public class ChartAllController {
     }
 
     public void initialize() {
-        xAxis.setCategories(FXCollections.observableArrayList("Двигуни", "Кузови", "Аксесуари","Aвто"));
+        xAxis.setCategories(FXCollections.observableArrayList("Двигуни", "Кузови", "Аксесуари","Авто"));
     }
 
     class GraphThread extends Thread {
