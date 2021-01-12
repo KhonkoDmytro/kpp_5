@@ -27,11 +27,11 @@ public class CarMounter extends Thread {
                 Car newCar = new Car(engineStorage.get(),
                     bodyStorage.get(),
                     accessoryStorage.get());
-                synchronized (carStorage) {
+//                synchronized (carStorage) {
                     while (!carStorage.tryAdd())
                         ;
                     carStorage.add(newCar);
-                }
+//                }
 
             }
         }

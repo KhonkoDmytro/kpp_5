@@ -20,7 +20,7 @@ public class Service {
 
     private Service() {
         factoryPipeline =
-            new FactoryPipeline(3000, configurator.GetStorageSize(), configurator.GetDealersCount(), 5, 5);
+            new FactoryPipeline(3000, configurator.GetStorageSize(), configurator.GetDealersCount(), 1, 1);
         factoryPipeline.start();
     }
 
