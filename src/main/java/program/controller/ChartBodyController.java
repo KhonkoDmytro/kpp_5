@@ -15,7 +15,7 @@ public class ChartBodyController extends ChartController {
     @FXML
     public void initialize() {
         chart.getData().add(series);
-        series.setName("Аксесуари");
+        series.setName("Кузови");
         th.start();
     }
 
