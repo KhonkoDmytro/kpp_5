@@ -3,6 +3,7 @@ package program.view;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
@@ -57,6 +58,9 @@ public abstract class View {
     protected ObservableList<Car> carList = FXCollections.observableArrayList();
     protected ObservableList<CarBody> bodyList = FXCollections.observableArrayList();
     protected ObservableList<Accessory> accessoryList = FXCollections.observableArrayList();
+
+    @FXML
+    private CategoryAxis xAxis;
 
     @FXML
     public void initialize() {

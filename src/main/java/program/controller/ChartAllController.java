@@ -1,13 +1,17 @@
 package program.controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import program.service.Service;
 import java.time.LocalTime;
 
 public class ChartAllController {
+    @FXML
+    public CategoryAxis xAxis;
     Service service = Service.getInstance();
     @FXML
     public BarChart<String, Integer> chart;
@@ -19,6 +23,10 @@ public class ChartAllController {
 
     public ChartAllController() {
         th.start();
+    }
+
+    public void initialize() {
+        xAxis.setCategories(FXCollections.observableArrayList("Двигуни", "Кузови", "Аксесуари","Aвто"));
     }
 
     class GraphThread extends Thread {

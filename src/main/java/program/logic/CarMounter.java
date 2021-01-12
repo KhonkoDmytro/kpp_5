@@ -30,10 +30,16 @@ public class CarMounter extends Thread {
                     bodyStorage.get(),
                     accessoryStorage.get());
 //                synchronized (carStorage) {
+<<<<<<< HEAD
+                    while (!carStorage.tryAdd())
+                        ;
+                    carStorage.add(newCar);
+=======
 //                    while (!carStorage.tryAdd())
 //                        ;
                     carStorage.add(newCar);
                     //System.out.println("Ok " + String.valueOf((new Random()).nextDouble()));
+>>>>>>> master
 //                }
 
             }
